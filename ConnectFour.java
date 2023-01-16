@@ -63,48 +63,55 @@ public class ConnectFour {
 
     //checks if someone has won, the input is the col and row value of the last move
     public boolean checkWin(int col_last_move, int row_last_move){
-        int min_col = Math.max(0, col_last_move - connectNum);
-        int max_col = Math.min(board[0].length-1, col_last_move + connectNum);
+        int min_col = Math.max(0, col_last_move - (connectNum -1));
+        int max_col = Math.min(board[0].length-1, col_last_move + (connectNum-1) );
 
-        int min_row= Math.max(0, row_last_move - connectNum );
-        int max_row = Math.min(board.length-1, row_last_move + connectNum);
+        int min_row= Math.max(0, row_last_move - (connectNum-1) );
+        int max_row = Math.min(board.length-1, row_last_move + (connectNum-1));
 
         String myVal = board[row_last_move][col_last_move];
-        boolean hasWin = true;
+        
 
         //horizontal
+
         int col = min_col;
         int counter = 0;
-        while(col<max_col){
+        while(col<=max_col){
             if(counter >= connectNum){
                return true;
             } 
-            for(int i = 0; i<connectNum; i++){
-                if(board[row_last_move][col+i].equals(myVal) ){
+           
+                if(board[row_last_move][col].equals(myVal) ){
                   counter++;
                 }
                 else{
                    counter = 0;
                 }
-            }
+            
             col++;
        }
-
+       if(counter>= connectNum){
+        return true;
+        }
 
         //vertical
-        for(int row = min_row; row < max_row; row++){
-            hasWin = true;
-            for(int i = 0; i<connectNum; i++){
-                if(!board[row+i][col_last_move].equals(myVal)){
-                    hasWin = false;
-                    break;
-                }
+       
+        counter = 0;
+        for(int row = min_row; row<=max_row; row++){
+            if(counter>= connectNum){
+                return true;
             }
-            if(hasWin){
-                return true; 
+            if(board[row][col_last_move].equals(myVal)){
+                counter++;
             }
-        } 
-
+            else{
+                counter = 0;
+            }
+        }
+        if(counter>= connectNum){
+            return true;
+        }
+        
 
         return checkDiagonalWin(col_last_move, row_last_move);
     }
