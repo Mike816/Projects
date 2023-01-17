@@ -35,6 +35,18 @@ public class ConnectFour {
         }
 
     }
+
+    //checks for a draw
+    public boolean checkDraw(){
+        for(int i = 0; i< board.length; i++){
+            for(int t = 0; t<board[0].length; t++){
+                if(board[i][t].equals("_")){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
     //returns the row, -1 if something went wrong
     public int makeMove(int col){
         for(int i = board.length-1; i >= 0; i--){
@@ -90,6 +102,7 @@ public class ConnectFour {
             
             col++;
        }
+       
        if(counter>= connectNum){
         return true;
         }
@@ -216,6 +229,10 @@ public class ConnectFour {
                 placement_col = Integer.parseInt(input.readLine()) -1;
                 row_last_move = game.makeMove(placement_col); 
                 game.printBoard();
+                if(game.checkDraw()){
+                    System.out.println("Draw!");
+                    break;
+                }
                 if(game.checkWin(placement_col, row_last_move)){
                     System.out.println("Game Over!");
                     System.out.println(game.getPoint(row_last_move, placement_col) + " Won!");
